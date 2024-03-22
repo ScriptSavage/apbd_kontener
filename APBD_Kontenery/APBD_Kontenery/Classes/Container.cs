@@ -4,23 +4,41 @@ namespace APBD_Kontenery.Classes;
 
 public abstract class Container : IContainers
 {
-    private double _cargoWeight;
+    public double CargoWeight { get; set; }
+
+    public double OwnWeight { get; set; }
+    public double Height { get; set; }
+
+    public double Depth { get; set; }
+
+    public double MaximumLoad { get; set; }
 
 
-    public  double CargoWeight { get; set; }
+    public double SerialNumber { get; set; }
 
-    protected Container(double cargoWeight)
+
+    protected Container(double cargoWeight, double ownWeight, double height, double depth, double maximumLoad, double serialNumber)
     {
-        cargoWeight = cargoWeight;
+        CargoWeight = cargoWeight;
+        OwnWeight = ownWeight;
+        Height = height;
+        Depth = depth;
+        MaximumLoad = maximumLoad;
+        SerialNumber = serialNumber;
     }
 
-    public void LoadCargo(double weight)
+
+    public abstract void LoadCargo(double weight);
+    public abstract void Unload();
+
+
+    public void CheckOverfill(double wight)
     {
-        throw new NotImplementedException("");
+        if (wight >= MaximumLoad)
+        {
+            throw new OverFillException("Za duza waga ladunku");
+        }
     }
 
-    public void Unload()
-    {
-        throw new NotImplementedException();
-    }
+
 }

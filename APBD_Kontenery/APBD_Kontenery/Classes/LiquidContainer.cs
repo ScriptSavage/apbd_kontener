@@ -1,23 +1,54 @@
-﻿using APBD_Kontenery.Interfaces;
+﻿
+using APBD_Kontenery.Interfaces;
 
 namespace APBD_Kontenery.Classes;
 
-public class LiquidContainer : Container 
+public class LiquidContainer : Container , IHazardNotifier
 {
-    
-    
-    
-    public LiquidContainer(double cargoWeight) : base(cargoWeight)
+    private IHazardNotifier _hazardNotifierImplementation;
+
+    public bool IsDanegrous { get; set; }
+
+
+    public LiquidContainer(double cargoWeight, double ownWeight, double height, double depth, double maximumLoad, double serialNumber) : base(cargoWeight, ownWeight, height, depth, maximumLoad, serialNumber)
     {
-        
+    }
+
+    public LiquidContainer(double cargoWeight, double ownWeight, double height, double depth, double maximumLoad, double serialNumber, bool isDanegrous) : base(cargoWeight, ownWeight, height, depth, maximumLoad, serialNumber)
+    {
+        IsDanegrous = isDanegrous;
+    }
+    
+
+   public override void LoadCargo(double weight)
+   {
+       if (weight > MaximumLoad * 0.5 && IsDanegrous)
+       {
+           SendTextNotification("cannot load more than 50% of its capacity");
+       }
+       else if (IsDanegrous == false && weight > MaximumLoad * 0.9 )
+       {
+           SendTextNotification("cannot load more than 90% of its capacity");
+       }
+       else if(IsDanegrous == false && weight < MaximumLoad * 0.9 )
+       {
+           CargoWeight = weight;
+       }
+       else
+       {
+           CargoWeight = weight;
+       }
+   }
+
+
+   public override void Unload()
+    {
+        CargoWeight = 0;
     }
 
 
-    public new void LoadCargo(double Weight)
+    public void SendTextNotification(string message)
     {
-        
+       Console.WriteLine(message);
     }
-
-
-
 }
