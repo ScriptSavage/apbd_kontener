@@ -2,35 +2,36 @@
 
 namespace APBD_Kontenery.Classes;
 
-public class GasContainer : Container , IHazardNotifier
+public class GasContainer(
+    double cargoWeight,
+    double ownWeight,
+    double height,
+    double depth,
+    double maximumLoad,
+    string serialNumber,
+    double pressure)
+    : Container(cargoWeight, ownWeight, height, depth, maximumLoad, serialNumber), IHazardNotifier
 {
 
-    public double Pressure { get; set; }
-
-    public GasContainer(double cargoWeight, double ownWeight, double height, double depth, double maximumLoad, double serialNumber) : base(cargoWeight, ownWeight, height, depth, maximumLoad, serialNumber)
-    {
-    }
+    public double Pressure { get; set; } = pressure;
 
 
-    public GasContainer(double cargoWeight, double ownWeight, double height, double depth, double maximumLoad, double serialNumber, double pressure) : base(cargoWeight, ownWeight, height, depth, maximumLoad, serialNumber)
-    {
-        Pressure = pressure;
-    }
-
-    
-    
     public override void LoadCargo(double weight)
     {
+        if (weight > maximumLoad)
+        {
+            SendTextNotification("Za duza masa");
+        }
         
     }
 
     public override void Unload()
     {
-        CargoWeight = CargoWeight * 0.9;
+        CargoWeight = CargoWeight * 0.05;
     }
 
     public void SendTextNotification(string message)
     {
-        Console.WriteLine("Tutaj dopidac metode");
+        Console.WriteLine("Za duza masa");
     }
 }

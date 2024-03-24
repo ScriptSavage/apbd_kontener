@@ -4,6 +4,10 @@ namespace APBD_Kontenery.Classes;
 
 public abstract class Container : IContainers
 {
+
+    protected static int _containerIndex = 0;
+
+    protected int _id { get; } = _containerIndex++;
     public double CargoWeight { get; set; }
 
     public double OwnWeight { get; set; }
@@ -14,10 +18,10 @@ public abstract class Container : IContainers
     public double MaximumLoad { get; set; }
 
 
-    public double SerialNumber { get; set; }
+    public string SerialNumber { get; set; }
 
 
-    protected Container(double cargoWeight, double ownWeight, double height, double depth, double maximumLoad, double serialNumber)
+    protected Container(double cargoWeight, double ownWeight, double height, double depth, double maximumLoad, string serialNumber)
     {
         CargoWeight = cargoWeight;
         OwnWeight = ownWeight;
