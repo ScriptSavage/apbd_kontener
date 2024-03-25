@@ -2,10 +2,10 @@
 
 namespace APBD_Kontenery.Classes;
 
-public abstract class Container : IContainers
+public abstract class Container : IHazardNotifier
 {
 
-    protected static int _containerIndex = 0;
+    protected static int _containerIndex = 1;
 
     protected int _id { get; } = _containerIndex++;
     public double CargoWeight { get; set; }
@@ -31,11 +31,6 @@ public abstract class Container : IContainers
         SerialNumber = serialNumber;
     }
 
-
-    public abstract void LoadCargo(double weight);
-    public abstract void Unload();
-
-
     public void CheckOverfill(double wight)
     {
         if (wight >= MaximumLoad)
@@ -44,5 +39,32 @@ public abstract class Container : IContainers
         }
     }
 
+    public virtual string Description()
+    {
+        return "Default Description";
+    }
 
+
+    public void Unload()
+    {
+        CargoWeight = 0;
+    }
+
+    public virtual void Load(double weight)
+    {
+        if (weight < 0 || weight > MaximumLoad)
+        {
+            throw new Exception("Nieprawidlowa masa");
+        }
+        else
+        {
+            CargoWeight = weight;
+        }
+       
+    }
+
+    public void SendTextNotification(string message)
+    {
+        Console.WriteLine("Wiadomosc");
+    }
 }

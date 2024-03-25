@@ -8,26 +8,22 @@ public class GasContainer(
     double height,
     double depth,
     double maximumLoad,
-    string serialNumber,
     double pressure)
-    : Container(cargoWeight, ownWeight, height, depth, maximumLoad, serialNumber), IHazardNotifier
+    : Container(cargoWeight, ownWeight, height, depth, maximumLoad, "KON-L " + _containerIndex), IHazardNotifier
 {
 
-    public double Pressure { get; set; } = pressure;
-
-
-    public override void LoadCargo(double weight)
+    public double Pressure { get; set; }
+    public override string Description()
     {
-        if (weight > maximumLoad)
-        {
-            SendTextNotification("Za duza masa");
-        }
-        
-    }
+        return "Serial Number -> " + SerialNumber + " "+ 
+               "Cargo Weight -> " + CargoWeight + " " +
+               "Pressure -> " + pressure;
+    } 
 
-    public override void Unload()
+    public new void Unload()
     {
         CargoWeight = CargoWeight * 0.05;
+        base.Unload();
     }
 
     public void SendTextNotification(string message)

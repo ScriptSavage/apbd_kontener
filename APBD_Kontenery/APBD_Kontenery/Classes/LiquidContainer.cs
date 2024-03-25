@@ -9,14 +9,14 @@ public class LiquidContainer : Container , IHazardNotifier
 
     public bool IsDanegrous { get; set; }
 
-    public LiquidContainer(double cargoWeight, double ownWeight, double height, double depth, double maximumLoad, double serialNumber, bool isDanegrous) : 
-        base(cargoWeight, ownWeight, height, depth, maximumLoad, "KON-L"+ _containerIndex)
+    public LiquidContainer(double cargoWeight, double ownWeight, double height, double depth, double maximumLoad,  bool isDanegrous) : 
+        base(cargoWeight, ownWeight, height, depth, maximumLoad, "KON-L " + _containerIndex)
     {
         IsDanegrous = isDanegrous;
     }
     
 
-   public override void LoadCargo(double weight)
+   public new void LoadCargo(double weight)
    {
        if (weight > MaximumLoad * 0.5 && IsDanegrous)
        {
@@ -35,16 +35,21 @@ public class LiquidContainer : Container , IHazardNotifier
            CargoWeight = weight;
        }
    }
-   
 
-   public override void Unload()
+   public override string Description()
+   {
+       return "Serial Number -> " + SerialNumber + " "+ 
+              "Cargo Weight -> " + CargoWeight + " " +
+              "Is Cargo Dangerous -> " + IsDanegrous;
+   } 
+
+   public new void Unload()
     {
         CargoWeight = 0;
     }
-
-
+   
     public void SendTextNotification(string message)
     {
-       Console.WriteLine(message);
+       Console.WriteLine();
     }
 }
