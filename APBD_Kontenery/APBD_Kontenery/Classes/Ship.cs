@@ -7,9 +7,7 @@ public class Ship
             _maxLoadWeight = maxLoadWeight;
             _maxSpeed = maxSpeed;
         }
-        public static Ship Create(int maxSpeed, int maxcapacity, int maxLoadWeight){
-            return new Ship(maxSpeed,maxcapacity,maxLoadWeight);
-        }
+     
         public void LoadBoat(Container container) {
             if (_capacity >= _maxCapacity)
             {
@@ -68,10 +66,7 @@ public class Ship
             }
         }
         public string DescribeBoat() {
-            String toRet ="";
-            toRet.Concat($"{GetType().Name}: Capacity - {_capacity}/{_maxCapacity}, Total Mass - {_loadweight}/{_maxLoadWeight}, Max Speed - {_maxSpeed}");
-            toRet.Concat("Containers:");
-            return toRet;
+            return (_capacity + _loadweight/_maxLoadWeight + _maxSpeed).ToString();
         }
         public static void ChangeContainter(Ship from, Ship to, string serialNumber) {
             Container container = from.DeLoadContainer(serialNumber);
